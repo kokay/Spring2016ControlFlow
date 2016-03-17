@@ -1,0 +1,694 @@
+~~~~~~~   Load Gadget Section   ~~~~~~~~~
+
+Results for register: eax: 
+ Load Gadgets Found:  
+
+Results for register: ebx: 
+ Load Gadgets Found:  
+
+Results for register: ecx: 
+ Load Gadgets Found:  
+
+Results for register: edx: 
+ Load Gadgets Found:  
+
+Results for register: esi: 
+ Load Gadgets Found:  
+
+Results for register: edi: 
+ Load Gadgets Found:  
+
+Results for register: ebp: 
+ Load Gadgets Found:  
+
+Results for register: esp: 
+ Load Gadgets Found:  
+
+Results for register: r8d: 
+ Load Gadgets Found:  
+
+Results for register: r9d: 
+ Load Gadgets Found:  
+
+Results for register: r10d: 
+ Load Gadgets Found:  
+
+Results for register: r11d: 
+ Load Gadgets Found:  
+
+Results for register: r12d: 
+ Load Gadgets Found:  
+
+Results for register: r13d: 
+ Load Gadgets Found:  
+
+Results for register: r14d: 
+ Load Gadgets Found:  
+
+Results for register: r15d: 
+ Load Gadgets Found:  
+
+~~~~~~~   Add Gadget Section   ~~~~~~~~~  
+
+Results for register: eax: 
+ Add Found:  
+
+    41d9a0				0f 1f 40 aa                     				clp
+    41d9a4     48 8b 05 85 bd 2b 00                 mov rax, [rip+0x2bbd85]
+    41d9ab                 48 85 c0                           test rax, rax
+    41d9ae                    74 18                             jz 0x41d9c8
+    41d9b0     48 3b 05 61 bd 2b 00                 cmp rax, [rip+0x2bbd61]
+    41d9b7                 0f 94 c0                                 setz al
+    41d9ba                 0f b6 c0                           movzx eax, al
+    41d9bd                 83 c0 01                            add eax, 0x1
+    41d9c0                       c3                                     ret
+
+
+    493c00				0f 1f 40 bb                     				jlp
+    493c04              83 7f 04 28               cmp dword [rdi+0x4], 0x28
+    493c08                    74 16                             jz 0x493c20
+    493c0a              0f 1f 40 bb                                 jlp		<=
+    493c0e                    8b 11                          mov edx, [rcx]
+    493c10                 83 c0 01                            add eax, 0x1
+    493c13                 48 89 cf                            mov rdi, rcx
+    493c16                    85 d2                           test edx, edx
+    493c18              48 8d 4f 04                      lea rcx, [rdi+0x4]
+    493c1c                    75 d1                            jnz 0x493bef
+    493c1e                       c3                                     ret
+
+
+    493ef8				0f 1f 40 bb                     				jlp
+    493efc              80 7f 01 28                cmp byte [rdi+0x1], 0x28
+    493f00                    74 1e                             jz 0x493f20
+    493f02              0f 1f 40 bb                                 jlp		<=
+    493f06                 0f b6 11                   movzx edx, byte [rcx]
+    493f09                 83 c0 01                            add eax, 0x1
+    493f0c                 48 89 cf                            mov rdi, rcx
+    493f0f                    84 d2                             test dl, dl
+    493f11              48 8d 4f 01                      lea rcx, [rdi+0x1]
+    493f15                    75 c9                            jnz 0x493ee0
+    493f17                       c3                                     ret
+
+
+     1cf80				0f 1f 40 aa                     				clp
+     1cf84                 48 85 ff                           test rdi, rdi
+     1cf87                    74 08                              jz 0x1cf91
+     1cf89              0f bf 47 06               movsx eax, word [rdi+0x6]
+     1cf8d                 83 c0 01                            add eax, 0x1
+     1cf90                       c3                                     ret
+
+
+     1cfa0				0f 1f 40 aa                     				clp
+     1cfa4                 48 85 ff                           test rdi, rdi
+     1cfa7                    74 08                              jz 0x1cfb1
+     1cfa9              0f bf 47 04               movsx eax, word [rdi+0x4]
+     1cfad                 83 c0 01                            add eax, 0x1
+     1cfb0                       c3                                     ret
+
+
+     20de3				0f 1f 40 cc                     				rlp
+     20de7                    84 c0                             test al, al
+     20de9                    74 dd                              jz 0x20dc8
+     20deb              0f bf 53 08               movsx edx, word [rbx+0x8]
+     20def              0f bf 43 5c              movsx eax, word [rbx+0x5c]
+     20df3                    01 d0                            add eax, edx
+     20df5                 41 29 c6                           sub r14d, eax
+     20df8              0f bf 43 0a               movsx eax, word [rbx+0xa]
+     20dfc                 41 29 c5                           sub r13d, eax
+     20dff              45 89 2c 24                         mov [r12], r13d
+     20e03              44 89 75 00                         mov [rbp], r14d
+     20e07           b8 01 00 00 00                            mov eax, 0x1
+     20e0c                       5b                                 pop rbx
+     20e0d                       5d                                 pop rbp
+     20e0e                    41 5c                                 pop r12
+     20e10                    41 5d                                 pop r13
+     20e12                    41 5e                                 pop r14
+     20e14                       c3                                     ret
+
+
+     213dd				0f 1f 40 cc                     				rlp
+     213e1                    84 c0                             test al, al
+     213e3              44 0f 45 f3                        cmovnz r14d, ebx
+     213e766 0f 1f 84 00 00 00 00 00                       o16 nop [rax+rax]
+     213f0     41 81 fe 40 42 0f 00                       cmp r14d, 0xf4240
+     213f7        0f 84 83 fe ff ff                              jz 0x21280
+     213fd              8b 44 24 08                      mov eax, [rsp+0x8]
+     21401                 44 01 f0                           add eax, r14d
+     21404     48 81 c4 88 02 00 00                          add rsp, 0x288
+     2140b                       5b                                 pop rbx
+     2140c                       5d                                 pop rbp
+     2140d                    41 5c                                 pop r12
+     2140f                    41 5d                                 pop r13
+     21411                    41 5e                                 pop r14
+     21413                    41 5f                                 pop r15
+     21415                       c3                                     ret
+
+
+     3d2ff				0f 1f 40 cc                     				rlp
+     3d303                 83 c0 01                            add eax, 0x1
+     3d306              48 83 c4 08                            add rsp, 0x8
+     3d30a                       c3                                     ret
+
+
+     292ba				0f 1f 40 cc                     				rlp
+     292be                 48 8b 00                          mov rax, [rax]
+     292c1              0f b7 04 58             movzx eax, word [rax+rbx*2]
+     292c5                       5b                                 pop rbx
+     292c6                 c1 e0 11                           shl eax, 0x11
+     292c9                 c1 f8 1f                           sar eax, 0x1f
+     292cc                 83 c0 02                            add eax, 0x2
+     292cf                       c3                                     ret
+
+
+Results for register: ebx: 
+ Add Found:  
+
+Results for register: ecx: 
+ Add Found:  
+
+    444439				0f 1f 40 cc                     				rlp
+    44443d                    89 c1                            mov ecx, eax
+    44443f                 83 e0 7f                           and eax, 0x7f
+    444442                 83 e1 7f                           and ecx, 0x7f
+    444445                    89 c2                            mov edx, eax
+    444447                    31 c0                            xor eax, eax
+    444449                 83 c1 01                            add ecx, 0x1
+    44444c                 80 f9 01                             cmp cl, 0x1
+    44444f                 0f 4f c2                          cmovg eax, edx
+    444452                       c3                                     ret
+
+
+     20ca0				0f 1f 40 aa                     				clp
+     20ca4                 48 85 ff                           test rdi, rdi
+     20ca7                    74 37                              jz 0x20ce0
+     20ca9              0f bf 47 5c              movsx eax, word [rdi+0x5c]
+     20cad              0f bf 4f 08               movsx ecx, word [rdi+0x8]
+     20cb1                    29 c6                            sub esi, eax
+     20cb3                    31 c0                            xor eax, eax
+     20cb5                    39 ce                            cmp esi, ecx
+     20cb7                    7c 2f                              jl 0x20ce8
+     20cb9           44 0f bf 47 0a               movsx r8d, word [rdi+0xa]
+     20cbe                 41 39 d0                            cmp r8d, edx
+     20cc1                    7f 25                              jg 0x20ce8
+     20cc3           44 0f bf 4f 06               movsx r9d, word [rdi+0x6]
+     20cc8                 45 01 c8                            add r8d, r9d
+     20ccb                 44 39 c2                            cmp edx, r8d
+     20cce                    7f 18                              jg 0x20ce8
+     20cd0              0f bf 47 04               movsx eax, word [rdi+0x4]
+     20cd4                    01 c1                            add ecx, eax
+     20cd6                    39 ce                            cmp esi, ecx
+     20cd8                 0f 9e c0                                setle al
+     20cdb                       c3                                     ret
+
+
+Results for register: edx: 
+ Add Found:  
+
+    45cd2f				0f 1f 40 bb                     				jlp
+    45cd33                 83 c2 01                            add edx, 0x1
+    45cd36                 48 63 fa                         movsxd rdi, edx
+    45cd39              0f b6 0c 3b               movzx ecx, byte [rbx+rdi]
+    45cd3d                    84 c9                             test cl, cl
+    45cd3f                    75 b7                            jnz 0x45ccf8
+    45cd41                 49 63 c8                         movsxd rcx, r8d
+    45cd44              c6 04 08 00                 mov byte [rax+rcx], 0x0
+    45cd48                       5b                                 pop rbx
+    45cd49                       5d                                 pop rbp
+    45cd4a                    41 5c                                 pop r12
+    45cd4c                       c3                                     ret
+
+
+Results for register: esi: 
+ Add Found:  
+
+    441b40				0f 1f 40 aa                     				clp
+    441b44           b9 b0 09 4a 00                       mov ecx, 0x4a09b0
+    441b49                    31 c0                            xor eax, eax
+    441b4b           ba 61 00 00 00                           mov edx, 0x61
+    441b50        88 90 e1 e1 6c 00                  mov [rax+0x6ce1e1], dl
+    441b56                 0f b6 11                   movzx edx, byte [rcx]
+    441b59                    89 c6                            mov esi, eax
+    441b5b              48 83 c1 10                           add rcx, 0x10
+    441b5f              48 83 c0 01                            add rax, 0x1
+    441b63                    84 d2                             test dl, dl
+    441b65                    75 e9                            jnz 0x441b50
+    441b67                 8d 46 02                      lea eax, [rsi+0x2]
+    441b6a                    48 98                                    cdqe
+    441b6c     c6 80 e0 e1 6c 00 6f           mov byte [rax+0x6ce1e0], 0x6f
+    441b73                 8d 46 03                      lea eax, [rsi+0x3]
+    441b76                 83 c6 04                            add esi, 0x4
+    441b79                 48 63 f6                         movsxd rsi, esi
+    441b7c                    48 98                                    cdqe
+    441b7e     c6 80 e0 e1 6c 00 3b           mov byte [rax+0x6ce1e0], 0x3b
+    441b85     c6 86 e0 e1 6c 00 00            mov byte [rsi+0x6ce1e0], 0x0
+    441b8c                       c3                                     ret
+
+
+Results for register: edi: 
+ Add Found:  
+
+Results for register: ebp: 
+ Add Found:  
+
+Results for register: esp: 
+ Add Found:  
+
+Results for register: r8d: 
+ Add Found:  
+
+     20ca0				0f 1f 40 aa                     				clp
+     20ca4                 48 85 ff                           test rdi, rdi
+     20ca7                    74 37                              jz 0x20ce0
+     20ca9              0f bf 47 5c              movsx eax, word [rdi+0x5c]
+     20cad              0f bf 4f 08               movsx ecx, word [rdi+0x8]
+     20cb1                    29 c6                            sub esi, eax
+     20cb3                    31 c0                            xor eax, eax
+     20cb5                    39 ce                            cmp esi, ecx
+     20cb7                    7c 2f                              jl 0x20ce8
+     20cb9           44 0f bf 47 0a               movsx r8d, word [rdi+0xa]
+     20cbe                 41 39 d0                            cmp r8d, edx
+     20cc1                    7f 25                              jg 0x20ce8
+     20cc3           44 0f bf 4f 06               movsx r9d, word [rdi+0x6]
+     20cc8                 45 01 c8                            add r8d, r9d
+     20ccb                 44 39 c2                            cmp edx, r8d
+     20cce                    7f 18                              jg 0x20ce8
+     20cd0              0f bf 47 04               movsx eax, word [rdi+0x4]
+     20cd4                    01 c1                            add ecx, eax
+     20cd6                    39 ce                            cmp esi, ecx
+     20cd8                 0f 9e c0                                setle al
+     20cdb                       c3                                     ret
+
+
+Results for register: r9d: 
+ Add Found:  
+
+Results for register: r10d: 
+ Add Found:  
+
+Results for register: r11d: 
+ Add Found:  
+
+Results for register: r12d: 
+ Add Found:  
+
+Results for register: r13d: 
+ Add Found:  
+
+Results for register: r14d: 
+ Add Found:  
+
+Results for register: r15d: 
+ Add Found:  
+
+~~~~~~~   Storage Gadget Section   ~~~~~~~~~  
+
+Results for register: eax: 
+ Storage Gadgets Found:  
+
+    429297				0f 1f 40 cc                     				rlp
+    42929b              48 83 c4 08                            add rsp, 0x8
+    42929f                    89 d8                            mov eax, ebx
+    4292a1                       5b                                 pop rbx
+    4292a2                       5d                                 pop rbp
+    4292a3                       c3                                     ret
+
+
+    434c41				0f 1f 40 cc                     				rlp
+    434c45              48 83 c4 08                            add rsp, 0x8
+    434c49                    89 e8                            mov eax, ebp
+    434c4b                       5b                                 pop rbx
+    434c4c                       5d                                 pop rbp
+    434c4d                       c3                                     ret
+
+
+    4367c2				0f 1f 40 cc                     				rlp
+    4367c6                       5b                                 pop rbx
+    4367c7                    89 e8                            mov eax, ebp
+    4367c9                       5d                                 pop rbp
+    4367ca                    41 5c                                 pop r12
+    4367cc                       c3                                     ret
+
+
+    441877				0f 1f 40 bb                     				jlp
+    44187b                    89 d8                            mov eax, ebx
+    44187d                       5b                                 pop rbx
+    44187e                       c3                                     ret
+
+
+    441933				0f 1f 40 cc                     				rlp
+    441937                    89 d8                            mov eax, ebx
+    441939                       5b                                 pop rbx
+    44193a                       c3                                     ret
+
+
+    441ddd				0f 1f 40 cc                     				rlp
+    441de1     48 81 c4 08 01 00 00                          add rsp, 0x108
+    441de8                    89 d8                            mov eax, ebx
+    441dea                       5b                                 pop rbx
+    441deb                       5d                                 pop rbp
+    441dec                       c3                                     ret
+
+
+    444159				0f 1f 40 cc                     				rlp
+    44415d     48 81 c4 00 01 00 00                          add rsp, 0x100
+    444164                    89 d8                            mov eax, ebx
+    444166                       5b                                 pop rbx
+    444167                       c3                                     ret
+
+
+    4454e0				0f 1f 40 cc                     				rlp
+    4454e4     48 81 c4 08 01 00 00                          add rsp, 0x108
+    4454eb                    89 d8                            mov eax, ebx
+    4454ed                       5b                                 pop rbx
+    4454ee                       5d                                 pop rbp
+    4454ef                       c3                                     ret
+
+
+    446338				0f 1f 40 cc                     				rlp
+    44633c     48 81 c4 08 01 00 00                          add rsp, 0x108
+    446343                    89 e8                            mov eax, ebp
+    446345                       5b                                 pop rbx
+    446346                       5d                                 pop rbp
+    446347                       c3                                     ret
+
+
+    4467c3				0f 1f 40 cc                     				rlp
+    4467c7     48 81 c4 08 01 00 00                          add rsp, 0x108
+    4467ce                    89 e8                            mov eax, ebp
+    4467d0                       5b                                 pop rbx
+    4467d1                       5d                                 pop rbp
+    4467d2                       c3                                     ret
+
+
+    448048				0f 1f 40 cc                     				rlp
+    44804c     48 81 c4 00 01 00 00                          add rsp, 0x100
+    448053                    89 d8                            mov eax, ebx
+    448055                       5b                                 pop rbx
+    448056                       c3                                     ret
+
+
+    46308e				0f 1f 40 cc                     				rlp
+    463092                       5b                                 pop rbx
+    463093                    89 e8                            mov eax, ebp
+    463095                       5d                                 pop rbp
+    463096                    41 5c                                 pop r12
+    463098                       c3                                     ret
+
+
+    4630d5				0f 1f 40 cc                     				rlp
+    4630d9                       5b                                 pop rbx
+    4630da                    89 e8                            mov eax, ebp
+    4630dc                       5d                                 pop rbp
+    4630dd                    41 5c                                 pop r12
+    4630df                       c3                                     ret
+
+
+    466af5				0f 1f 40 cc                     				rlp
+    466af9                    89 d8                            mov eax, ebx
+    466afb                       5b                                 pop rbx
+    466afc                       c3                                     ret
+
+
+    4686b8				0f 1f 40 cc                     				rlp
+    4686bc              48 83 c4 08                            add rsp, 0x8
+    4686c0                    89 e8                            mov eax, ebp
+    4686c2                       5b                                 pop rbx
+    4686c3                       5d                                 pop rbp
+    4686c4                       c3                                     ret
+
+
+    46c8ff				0f 1f 40 cc                     				rlp
+    46c903                    89 d8                            mov eax, ebx
+    46c905                       5b                                 pop rbx
+    46c906                       5d                                 pop rbp
+    46c907                    41 5c                                 pop r12
+    46c909                       c3                                     ret
+
+
+    46f64f				0f 1f 40 cc                     				rlp
+    46f653           ba 01 00 00 00                            mov edx, 0x1
+    46f658                    89 d0                            mov eax, edx
+    46f65a              48 83 c4 08                            add rsp, 0x8
+    46f65e                       c3                                     ret
+
+
+    46f9aa				0f 1f 40 cc                     				rlp
+    46f9ae                       5b                                 pop rbx
+    46f9af                    89 e8                            mov eax, ebp
+    46f9b1                       5d                                 pop rbp
+    46f9b2                    41 5c                                 pop r12
+    46f9b4                       c3                                     ret
+
+
+    47862e				0f 1f 40 cc                     				rlp
+    478632           ba 01 00 00 00                            mov edx, 0x1
+    478637                    89 d0                            mov eax, edx
+    478639                       5b                                 pop rbx
+    47863a                       c3                                     ret
+
+
+    478ba2				0f 1f 40 cc                     				rlp
+    478ba6           bf 01 00 00 00                            mov edi, 0x1
+    478bab                    89 f8                            mov eax, edi
+    478bad                       5b                                 pop rbx
+    478bae                       c3                                     ret
+
+
+    47c157				0f 1f 40 cc                     				rlp
+    47c15b              48 83 c4 08                            add rsp, 0x8
+    47c15f                    89 e8                            mov eax, ebp
+    47c161                       5b                                 pop rbx
+    47c162                       5d                                 pop rbp
+    47c163                       c3                                     ret
+
+
+    47c1de				0f 1f 40 cc                     				rlp
+    47c1e2                    89 d8                            mov eax, ebx
+    47c1e4                       5b                                 pop rbx
+    47c1e5                       c3                                     ret
+
+
+    47e7f4				0f 1f 40 cc                     				rlp
+    47e7f8                       5b                                 pop rbx
+    47e7f9                    89 e8                            mov eax, ebp
+    47e7fb                       5d                                 pop rbp
+    47e7fc                    41 5c                                 pop r12
+    47e7fe                       c3                                     ret
+
+
+    4816ca				0f 1f 40 cc                     				rlp
+    4816ce              48 83 c4 08                            add rsp, 0x8
+    4816d2                    89 e8                            mov eax, ebp
+    4816d4                       5b                                 pop rbx
+    4816d5                       5d                                 pop rbp
+    4816d6                       c3                                     ret
+
+
+    481cd5				0f 1f 40 cc                     				rlp
+    481cd9                    89 d8                            mov eax, ebx
+    481cdb                       5b                                 pop rbx
+    481cdc                       c3                                     ret
+
+
+    485934				0f 1f 40 cc                     				rlp
+    485938                    89 d8                            mov eax, ebx
+    48593a                       5b                                 pop rbx
+    48593b                       5d                                 pop rbp
+    48593c                    41 5c                                 pop r12
+    48593e                       c3                                     ret
+
+
+    48599a				0f 1f 40 cc                     				rlp
+    48599e              48 83 c4 08                            add rsp, 0x8
+    4859a2                    89 d8                            mov eax, ebx
+    4859a4                       5b                                 pop rbx
+    4859a5                       5d                                 pop rbp
+    4859a6                       c3                                     ret
+
+
+    4864c5				0f 1f 40 cc                     				rlp
+    4864c9                    89 d8                            mov eax, ebx
+    4864cb                       5b                                 pop rbx
+    4864cc                       5d                                 pop rbp
+    4864cd                    41 5c                                 pop r12
+    4864cf                       c3                                     ret
+
+
+    486884				0f 1f 40 cc                     				rlp
+    486888                    89 e8                            mov eax, ebp
+    48688a              48 83 c4 18                           add rsp, 0x18
+    48688e                       5b                                 pop rbx
+    48688f                       5d                                 pop rbp
+    486890                       c3                                     ret
+
+
+    489aee				0f 1f 40 cc                     				rlp
+    489af2              48 83 c4 08                            add rsp, 0x8
+    489af6                    89 e8                            mov eax, ebp
+    489af8                       5b                                 pop rbx
+    489af9                       5d                                 pop rbp
+    489afa                       c3                                     ret
+
+
+    48ef18				0f 1f 40 cc                     				rlp
+    48ef1c              48 83 c4 10                           add rsp, 0x10
+    48ef20                    89 d8                            mov eax, ebx
+    48ef22                       5b                                 pop rbx
+    48ef23                       c3                                     ret
+
+
+     190e1				0f 1f 40 cc                     				rlp
+     190e5                    89 d8                            mov eax, ebx
+     190e7                       5b                                 pop rbx
+     190e8                       c3                                     ret
+
+
+     1b7af				0f 1f 40 cc                     				rlp
+     1b7b3                    89 d8                            mov eax, ebx
+     1b7b5                       5b                                 pop rbx
+     1b7b6                       c3                                     ret
+
+
+     1bbd0				0f 1f 40 aa                     				clp
+     1bbd4                    89 f8                            mov eax, edi
+     1bbd6                 c1 e0 08                            shl eax, 0x8
+     1bbd9                       c3                                     ret
+
+
+     1fdf5				0f 1f 40 cc                     				rlp
+     1fdf9              48 83 c4 28                           add rsp, 0x28
+     1fdfd                    89 e8                            mov eax, ebp
+     1fdff                       5b                                 pop rbx
+     1fe00                       5d                                 pop rbp
+     1fe01                       c3                                     ret
+
+
+     3e07d				0f 1f 40 cc                     				rlp
+     3e081                    89 c0                            mov eax, eax
+     3e083                 48 01 d8                            add rax, rbx
+     3e086                       5b                                 pop rbx
+     3e087                       c3                                     ret
+
+
+     18972				0f 1f 40 cc                     				rlp
+     18976                    89 d8                            mov eax, ebx
+     18978              48 83 c4 08                            add rsp, 0x8
+     1897c                       5b                                 pop rbx
+     1897d                       5d                                 pop rbp
+     1897e                       c3                                     ret
+
+
+     1e5c2				0f 1f 40 cc                     				rlp
+     1e5c6     48 81 c4 a8 00 00 00                           add rsp, 0xa8
+     1e5cd                    89 e8                            mov eax, ebp
+     1e5cf                       5b                                 pop rbx
+     1e5d0                       5d                                 pop rbp
+     1e5d1                       c3                                     ret
+
+
+     20a12				0f 1f 40 cc                     				rlp
+     20a16                    89 d8                            mov eax, ebx
+     20a18                       5b                                 pop rbx
+     20a19                       5d                                 pop rbp
+     20a1a                    41 5c                                 pop r12
+     20a1c                       c3                                     ret
+
+
+     25db7				0f 1f 40 cc                     				rlp
+     25dbb                    89 d8                            mov eax, ebx
+     25dbd                       5b                                 pop rbx
+     25dbe                       c3                                     ret
+
+
+     26ef8				0f 1f 40 cc                     				rlp
+     26efc                       5b                                 pop rbx
+     26efd                    89 e8                            mov eax, ebp
+     26eff                       5d                                 pop rbp
+     26f00                    41 5c                                 pop r12
+     26f02                       c3                                     ret
+
+
+     303c7				0f 1f 40 cc                     				rlp
+     303cb              48 83 c4 08                            add rsp, 0x8
+     303cf                    89 d8                            mov eax, ebx
+     303d1                       5b                                 pop rbx
+     303d2                       5d                                 pop rbp
+     303d3                       c3                                     ret
+
+
+     3085b				0f 1f 40 cc                     				rlp
+     3085f                    89 d8                            mov eax, ebx
+     30861              48 83 c4 10                           add rsp, 0x10
+     30865                       5b                                 pop rbx
+     30866                       c3                                     ret
+
+
+     322a2				0f 1f 40 cc                     				rlp
+     322a6                    89 d8                            mov eax, ebx
+     322a8                       5b                                 pop rbx
+     322a9                       5d                                 pop rbp
+     322aa                    41 5c                                 pop r12
+     322ac                       c3                                     ret
+
+
+     322a2				0f 1f 40 cc                     				rlp
+     322a6                    89 d8                            mov eax, ebx
+     322a8                       5b                                 pop rbx
+     322a9                       5d                                 pop rbp
+     322aa                    41 5c                                 pop r12
+     322ac                       c3                                     ret
+
+
+     33a89				0f 1f 40 cc                     				rlp
+     33a8d                    89 d8                            mov eax, ebx
+     33a8f                       5b                                 pop rbx
+     33a90                       5d                                 pop rbp
+     33a91                    41 5c                                 pop r12
+     33a93                       c3                                     ret
+
+
+Results for register: ebx: 
+ Storage Gadgets Found:  
+
+Results for register: ecx: 
+ Storage Gadgets Found:  
+
+Results for register: edx: 
+ Storage Gadgets Found:  
+
+Results for register: esi: 
+ Storage Gadgets Found:  
+
+Results for register: edi: 
+ Storage Gadgets Found:  
+
+Results for register: ebp: 
+ Storage Gadgets Found:  
+
+Results for register: esp: 
+ Storage Gadgets Found:  
+
+Results for register: r8d: 
+ Storage Gadgets Found:  
+
+Results for register: r9d: 
+ Storage Gadgets Found:  
+
+Results for register: r10d: 
+ Storage Gadgets Found:  
+
+Results for register: r11d: 
+ Storage Gadgets Found:  
+
+Results for register: r12d: 
+ Storage Gadgets Found:  
+
+Results for register: r13d: 
+ Storage Gadgets Found:  
+
+Results for register: r14d: 
+ Storage Gadgets Found:  
+
+Results for register: r15d: 
+ Storage Gadgets Found:  
+

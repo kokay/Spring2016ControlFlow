@@ -3,6 +3,7 @@
 #include "Gadget.h"
 #include <iostream>
 
+
 using namespace std;
 
 Operation::Operation(const int64_t& address, const vector<uint8_t>& instractionSet, const string& asmblyInstraction)

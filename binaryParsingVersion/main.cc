@@ -7,6 +7,7 @@
 #include "FileInputOutput.h"
 
 using namespace std;
+
 int main(int argc, char* argv[]) {
 
   vector<FileInfo> inputInfos = GetInputFilesFromArguments(argc, argv);
@@ -16,7 +17,7 @@ int main(int argc, char* argv[]) {
 
     vector<Gadget> gadgets = Gadget::ReadGadgetsFromBinary(inputInfos[i]);
     for(int j=0;j<gadgets.size();++j) {
-      gadgets[j].PrintOnFile(outputInfo);
+      gadgets[j].PrintOnFile(&outputInfo);
     }
 
     fclose(inputInfos[i].file);

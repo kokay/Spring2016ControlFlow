@@ -14,7 +14,7 @@ Operation::Operation(const int64_t& address, const vector<uint8_t>& instractionS
 
 void Operation::Print() {
   printf( "%llx :\t", (unsigned long long)_address);
-  for(int i=0;i<_instractionSet.size();++i) {
+  for(unsigned i=0;i<_instractionSet.size();++i) {
     printf("%02x ", _instractionSet[i]);
   }
 
@@ -28,7 +28,7 @@ void Operation::Print() {
 
 void Operation::PrintOnFile(FILE* outputFile) {
   fprintf(outputFile, "%llx :\t", (unsigned long long)_address);
-  for(int i=0;i<_instractionSet.size();++i) {
+  for(unsigned i=0;i<_instractionSet.size();++i) {
     fprintf(outputFile, "%02x ", _instractionSet[i]);
   }
 
@@ -42,7 +42,7 @@ void Operation::PrintOnFile(FILE* outputFile) {
 
 ostream& operator<<(ostream& output, const Operation& operation) {
   output << hex << (unsigned long long)operation._address << " :\t";
-  for(int i=0;i<operation._instractionSet.size();++i) {
+  for(unsigned i=0;i<operation._instractionSet.size();++i) {
     output << hex << setw(2) << setfill('0') << unsigned(operation._instractionSet[i]) << " ";
   }
 
@@ -65,23 +65,24 @@ Gadget::Gadget(const Operation& startOperation, const Operation& endOperation, c
 void Gadget::Print() {
   cout << _fileName << "\t";
   _startOperation.Print();
-  for(int i=0;i<_operations.size();++i) {
+  for(unsigned i=0;i<_operations.size();++i) {
     _operations[i].Print();
   }
   _endOperation.Print();
 }
 
-void Gadget::PrintOnFile(const FileInfo& output) {
-  fprintf(output.file, "%s\n", _fileName.c_str());
-  _startOperation.PrintOnFile(output.file);
-  fprintf(output.file, "\n");
-  for(int i=0;i<_operations.size();++i) {
-    _operations[i].PrintOnFile(output.file);
-    fprintf(output.file, "\n");
+void Gadget::PrintOnFile(FileInfo* output) {
+  fprintf(output->file, "%s\n", _fileName.c_str());
+  _startOperation.PrintOnFile(output->file);
+  fprintf(output->file, "\n");
+  for(unsigned i=0;i<_operations.size();++i) {
+    _operations[i].PrintOnFile(output->file);
+    fprintf(output->file, "\n");
   }
-  _endOperation.PrintOnFile(output.file);
-  fprintf(output.file, "\n\n");
+  _endOperation.PrintOnFile(output->file);
+  fprintf(output->file, "\n\n");
 }
+
 vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
 
   ud_t ud_obj;
@@ -120,7 +121,7 @@ vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
 
 ostream& operator<<(ostream& output, const Gadget& gadget) {
   output << gadget._startOperation << endl;
-  for(int i=0;i<gadget._operations.size();++i) {
+  for(unsigned i=0;i<gadget._operations.size();++i) {
     output << gadget._operations[i] << endl;
   }
   output << gadget._endOperation << endl;
@@ -163,7 +164,7 @@ uint64_t Gadget::getAddress(ud_t* ud_obj) {
 
 vector<uint8_t> Gadget::getInstractionSet(ud_t* ud_obj) {
   vector<uint8_t> instractionSet;
-  for(int i=0;i<ud_insn_len(ud_obj);++i){
+  for(unsigned i=0;i<ud_insn_len(ud_obj);++i){
     instractionSet.push_back(ud_insn_ptr(ud_obj)[i]);
   }
   return instractionSet;

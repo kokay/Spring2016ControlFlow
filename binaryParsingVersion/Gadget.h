@@ -25,7 +25,7 @@ class Gadget {
 public:
   Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations, const string& fileName);
   void Print();
-  void PrintOnFile(const FileInfo& input);
+  void PrintOnFile(FileInfo* input);
   static vector<Gadget> ReadGadgetsFromBinary(const FileInfo& input);
 private:
   friend ostream& operator<<(ostream& output, const Gadget& gadget);

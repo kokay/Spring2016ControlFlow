@@ -2,29 +2,25 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Gadget.h"
 #include <udis86.h>
+#include "Gadget.h"
+#include "FileInputOutput.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
 
-  if(argc != 2) {
-    cout << "Please indicate one input file." << endl;
-    exit(1);   
-  }
+  vector<FileInfo> inputInfos = GetInputFilesFromArguments(argc, argv);
+  FileInfo outputInfo = GetOutputFileFromArguments(argc, argv);
 
-  FILE* inputFile = fopen(argv[1], "r");
-  if(inputFile == NULL) {
-    cout << argv[1] << " cannot open." << endl;
-    exit(1);
-  }
+  for(int i=0;i<inputInfos.size();++i) {
 
-  vector<Gadget> gadgets = Gadget::ReadGadgetsFromBinary(inputFile);
-  for(int i=0;i<gadgets.size();++i) {
-    gadgets[i].Print();
-    getchar();
-  }
+    vector<Gadget> gadgets = Gadget::ReadGadgetsFromBinary(inputInfos[i]);
+    for(int j=0;j<gadgets.size();++j) {
+      gadgets[j].PrintOnFile(&outputInfo);
+    }
 
-  fclose(inputFile);
+    fclose(inputInfos[i].file);
+  }
+  fclose(outputInfo.file);
 }

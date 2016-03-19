@@ -1,8 +1,8 @@
 #include <string>
 #include <vector>
-#include "Gadget.h"
 #include <iostream>
 #include <iomanip>
+#include "Gadget.h"
 
 using namespace std;
 

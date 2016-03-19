@@ -6,8 +6,18 @@
 
 using namespace std;
 
-vector<FILE*> GetInputFilesFromArguments(int argc, char* argv[]);
-FILE* GetOutputFileFromArguments(int argc, char* argv[]);
+struct FileInfo {
+  FileInfo(FILE* fileArg, const string& fileNameArg)
+    : file(fileArg)
+    , fileName(fileNameArg)
+  {}
+
+  FILE* file;
+  string fileName;
+};
+
+vector<FileInfo> GetInputFilesFromArguments(int argc, char* argv[]);
+FileInfo GetOutputFileFromArguments(int argc, char* argv[]);
 
 
 #endif // FILEINPUTOUTPUT_H

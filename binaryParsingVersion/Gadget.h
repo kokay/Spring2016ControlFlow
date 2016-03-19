@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <udis86.h>
+#include "FileInputOutput.h"
 
 using namespace std;
 
@@ -22,10 +23,10 @@ private:
 
 class Gadget {
 public:
-  Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations);
+  Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations, const string& fileName);
   void Print();
-  void PrintOnFile(FILE* outputFile);
-  static vector<Gadget> ReadGadgetsFromBinary(FILE* inputFile);
+  void PrintOnFile(const FileInfo& input);
+  static vector<Gadget> ReadGadgetsFromBinary(const FileInfo& input);
 private:
   friend ostream& operator<<(ostream& output, const Gadget& gadget);
   static bool isStartOfGadget(ud_t* id_obj);
@@ -36,6 +37,7 @@ private:
   Operation _startOperation;
   Operation _endOperation;
   vector<Operation> _operations;
+  string _fileName;
 };
 
 #endif  // GADGET_H_

@@ -55,13 +55,15 @@ ostream& operator<<(ostream& output, const Operation& operation) {
   return output;
 }
 
-Gadget::Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations)
+Gadget::Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations, const string& fileName)
   : _startOperation(startOperation)
   , _endOperation(endOperation)
   , _operations(operations)
+  , _fileName(fileName)
   {}
 
 void Gadget::Print() {
+  cout << _fileName << "\t";
   _startOperation.Print();
   for(int i=0;i<_operations.size();++i) {
     _operations[i].Print();
@@ -69,21 +71,22 @@ void Gadget::Print() {
   _endOperation.Print();
 }
 
-void Gadget::PrintOnFile(FILE* outputFile) {
-  _startOperation.PrintOnFile(outputFile);
-  fprintf(outputFile, "\n");
+void Gadget::PrintOnFile(const FileInfo& output) {
+  fprintf(output.file, "%s\n", _fileName.c_str());
+  _startOperation.PrintOnFile(output.file);
+  fprintf(output.file, "\n");
   for(int i=0;i<_operations.size();++i) {
-    _operations[i].PrintOnFile(outputFile);
-    fprintf(outputFile, "\n");
+    _operations[i].PrintOnFile(output.file);
+    fprintf(output.file, "\n");
   }
-  _endOperation.PrintOnFile(outputFile);
-  fprintf(outputFile, "\n\n");
+  _endOperation.PrintOnFile(output.file);
+  fprintf(output.file, "\n\n");
 }
-vector<Gadget> Gadget::ReadGadgetsFromBinary(FILE* inputFile) {
+vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
 
   ud_t ud_obj;
   ud_init(&ud_obj);
-  ud_set_input_file(&ud_obj, inputFile);
+  ud_set_input_file(&ud_obj, input.file);
   ud_set_mode(&ud_obj, 64);
   ud_set_syntax(&ud_obj, UD_SYN_INTEL);
 
@@ -102,7 +105,7 @@ vector<Gadget> Gadget::ReadGadgetsFromBinary(FILE* inputFile) {
         Operation endOperation(getAddress(&ud_obj),
           getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
 
-        gadgets.push_back(Gadget(startOperation, endOperation, operations));
+        gadgets.push_back(Gadget(startOperation, endOperation, operations, input.fileName));
         break;
       }
 

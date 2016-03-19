@@ -1,4 +1,4 @@
-#ifndef GADGET_H_ 
+#ifndef GADGET_H_
 #define GADGET_H_
 
 #include <string>
@@ -11,7 +11,9 @@ class Operation {
 public:
   Operation(const int64_t& address, const vector<uint8_t>& instractionSet, const string& asmblyInstraction);
   void Print();
+  void PrintOnFile(FILE* outputFile);
 private:
+  friend ostream& operator<<(ostream& output, const Operation& gadget);
   int64_t _address;
   vector<uint8_t> _instractionSet;
   string _asmblyInstraction;
@@ -22,8 +24,10 @@ class Gadget {
 public:
   Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations);
   void Print();
+  void PrintOnFile(FILE* outputFile);
   static vector<Gadget> ReadGadgetsFromBinary(FILE* inputFile);
 private:
+  friend ostream& operator<<(ostream& output, const Gadget& gadget);
   static bool isStartOfGadget(ud_t* id_obj);
   static bool isEndOfGadget(ud_t* id_obj);
   static uint64_t getAddress(ud_t* ud_obj);
@@ -34,4 +38,4 @@ private:
   vector<Operation> _operations;
 };
 
-#endif  // GADGET_H_ 
+#endif  // GADGET_H_

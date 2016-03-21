@@ -7,17 +7,14 @@
 using namespace std;
 
 struct FileInfo {
-  FileInfo(FILE* fileArg, const string& fileNameArg)
-    : file(fileArg)
-    , fileName(fileNameArg)
-  {}
+  FileInfo(FILE* fileArg, const string& fileNameArg, const int depthArg);
+  static vector<FileInfo> GetInputFilesFromArguments(int argc, char* argv[]);
+  static FileInfo GetOutputFileFromArguments(int argc, char* argv[]);
+  static void PrintUsage();
 
   FILE* file;
   string fileName;
+  int depth;
 };
-
-vector<FileInfo> GetInputFilesFromArguments(int argc, char* argv[]);
-FileInfo GetOutputFileFromArguments(int argc, char* argv[]);
-
 
 #endif // FILEINPUTOUTPUT_H

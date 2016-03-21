@@ -95,10 +95,8 @@ vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
   while (ud_disassemble(&ud_obj)) {
     if(!isStartOfGadget(&ud_obj)) continue;
 
-    Operation startOperation(
-      getAddress(&ud_obj),
-      getInstractionSet(&ud_obj),
-      getAsmblyInstraction(&ud_obj));
+    Operation startOperation( getAddress(&ud_obj),
+      getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
 
     vector<Operation> operations;
     while (ud_disassemble(&ud_obj)) {
@@ -110,12 +108,15 @@ vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
         break;
       }
 
-      operations.push_back(Operation(
-        getAddress(&ud_obj),
-        getInstractionSet(&ud_obj),
-        getAsmblyInstraction(&ud_obj)));
+      operations.push_back(Operation(getAddress(&ud_obj),
+        getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj)));
+
+      if(operations.size() == input.depth - 1){
+        break;
+      }
     }
   }
+
   return gadgets;
 }
 

@@ -10,13 +10,13 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-  vector<FileInfo> inputInfos = GetInputFilesFromArguments(argc, argv);
-  FileInfo outputInfo = GetOutputFileFromArguments(argc, argv);
+  vector<FileInfo> inputInfos = FileInfo::GetInputFilesFromArguments(argc, argv);
+  FileInfo outputInfo = FileInfo::GetOutputFileFromArguments(argc, argv);
 
-  for(int i=0;i<inputInfos.size();++i) {
+  for(unsigned i=0;i<inputInfos.size();++i) {
 
     vector<Gadget> gadgets = Gadget::ReadGadgetsFromBinary(inputInfos[i]);
-    for(int j=0;j<gadgets.size();++j) {
+    for(unsigned j=0;j<gadgets.size();++j) {
       gadgets[j].PrintOnFile(&outputInfo);
     }
 

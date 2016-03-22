@@ -11,6 +11,7 @@ struct FileInfo {
   static vector<FileInfo> GetInputFilesFromArguments(int argc, char* argv[]);
   static FileInfo GetOutputFileFromArguments(int argc, char* argv[]);
   static void PrintUsage();
+  void ResetFile();
 
   FILE* file;
   string fileName;

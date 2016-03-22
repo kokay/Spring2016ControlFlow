@@ -4,56 +4,14 @@
 #include <iomanip>
 #include "Gadget.h"
 
+#define CLP      0xaa401f0f
+#define JLP      0xbb401f0f
+#define RLP      0xcc401f0f
+#define LP_NEW_A 0x00841f0f
+#define LP_NEW_B 0x00881f0f
+#define LP_NEW_C 0x00441f0f
+
 using namespace std;
-
-Operation::Operation(const int64_t& address, const vector<uint8_t>& instractionSet, const string& asmblyInstraction)
-  : _address(address)
-  , _instractionSet(instractionSet)
-  , _asmblyInstraction(asmblyInstraction)
-  {}
-
-void Operation::Print() {
-  printf( "%llx :\t", (unsigned long long)_address);
-  for(unsigned i=0;i<_instractionSet.size();++i) {
-    printf("%02x ", _instractionSet[i]);
-  }
-
-  int spaceSize = 0;
-  if(_instractionSet.size() <= 10) spaceSize = 32 - _instractionSet.size() * 3;
-  else                             spaceSize = 47 - _instractionSet.size() * 3;
-
-  for(int i=0;i<spaceSize;++i) printf(" ");
-  printf("%s", _asmblyInstraction.c_str());
-}
-
-void Operation::PrintOnFile(FILE* outputFile) {
-  fprintf(outputFile, "%llx :\t", (unsigned long long)_address);
-  for(unsigned i=0;i<_instractionSet.size();++i) {
-    fprintf(outputFile, "%02x ", _instractionSet[i]);
-  }
-
-  int spaceSize = 0;
-  if(_instractionSet.size() <= 10) spaceSize = 32 - _instractionSet.size() * 3;
-  else                             spaceSize = 47 - _instractionSet.size() * 3;
-
-  for(int i=0;i<spaceSize;++i) fprintf(outputFile, " ");
-  fprintf(outputFile, "%s", _asmblyInstraction.c_str());
-}
-
-ostream& operator<<(ostream& output, const Operation& operation) {
-  output << hex << (unsigned long long)operation._address << " :\t";
-  for(unsigned i=0;i<operation._instractionSet.size();++i) {
-    output << hex << setw(2) << setfill('0') << unsigned(operation._instractionSet[i]) << " ";
-  }
-
-  int spaceSize = 0;
-  if(operation._instractionSet.size() <= 10) spaceSize = 32 - operation._instractionSet.size() * 3;
-  else                             spaceSize = 47 - operation._instractionSet.size() * 3;
-
-  for(int i=0;i<spaceSize;++i) output << " ";
-  output << operation._asmblyInstraction;
-  return output;
-}
 
 Gadget::Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations, const string& fileName)
   : _startOperation(startOperation)
@@ -62,6 +20,8 @@ Gadget::Gadget(const Operation& startOperation, const Operation& endOperation, c
   , _fileName(fileName)
   {}
 
+
+// This can be delted. Operation can be printed out like -> cout << gadget << endl;
 void Gadget::Print() {
   cout << _fileName << "\t";
   _startOperation.Print();
@@ -83,7 +43,7 @@ void Gadget::PrintOnFile(FileInfo* output) {
   fprintf(output->file, "\n\n");
 }
 
-vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
+vector<Gadget> Gadget::FirstPassGadgetsRead(FileInfo& input) {
 
   ud_t ud_obj;
   ud_init(&ud_obj);
@@ -108,8 +68,10 @@ vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
         break;
       }
 
-      operations.push_back(Operation(getAddress(&ud_obj),
-        getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj)));
+      Operation operation( getAddress(&ud_obj),
+        getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+
+      operations.push_back(operation);
 
       if(operations.size() == input.depth - 1){
         break;
@@ -117,6 +79,49 @@ vector<Gadget> Gadget::ReadGadgetsFromBinary(const FileInfo& input) {
     }
   }
 
+  input.ResetFile();
+  return gadgets;
+}
+
+vector<Gadget> Gadget::SecondPassGadgetsRead(FileInfo& input) {
+
+  ud_t ud_obj;
+  ud_init(&ud_obj);
+  ud_set_input_file(&ud_obj, input.file);
+  ud_set_mode(&ud_obj, 64);
+  ud_set_syntax(&ud_obj, UD_SYN_INTEL);
+
+  vector<Gadget> gadgets;
+  while (ud_disassemble(&ud_obj)) {
+    if(!isLP(&ud_obj)) continue;
+
+    Operation startOperation( getAddress(&ud_obj),
+      getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+
+    vector<Operation> operations;
+    while (ud_disassemble(&ud_obj)) {
+      if(isEndOfGadget(&ud_obj)) {
+        Operation endOperation(getAddress(&ud_obj),
+          getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+
+        Operation::RemoveDuplicate(startOperation, &operations);
+        gadgets.push_back(Gadget(startOperation, endOperation, operations, input.fileName));
+        break;
+      }
+
+      Operation operation( getAddress(&ud_obj),
+        getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+
+      operations.push_back(operation);
+
+      if(operations.size() == input.depth - 1){
+        break;
+      }
+    }
+  }
+
+
+  input.ResetFile();
   return gadgets;
 }
 
@@ -130,10 +135,6 @@ ostream& operator<<(ostream& output, const Gadget& gadget) {
 }
 
 bool Gadget::isStartOfGadget(ud_t* ud_obj) {
-  static const unsigned long long CLP = 0xaa401f0f;
-  static const unsigned long long JLP = 0xbb401f0f;
-  static const unsigned long long RLP = 0xcc401f0f;
-
   const uint8_t *instractionBuffer = ud_insn_ptr(ud_obj);
   int instraction = *(int*)instractionBuffer;
   switch(instraction) {
@@ -142,6 +143,21 @@ bool Gadget::isStartOfGadget(ud_t* ud_obj) {
     case JLP:
       return true;
     case RLP:
+      return true;
+    default:
+      return false;
+  }
+}
+
+bool Gadget::isLP(ud_t* ud_obj) {
+  const uint8_t *instractionBuffer = ud_insn_ptr(ud_obj);
+  int instraction = *(int*)instractionBuffer;
+  switch(instraction) {
+    case LP_NEW_A:
+      return true;
+    case LP_NEW_B:
+      return true;
+    case LP_NEW_C:
       return true;
     default:
       return false;
@@ -172,10 +188,6 @@ vector<uint8_t> Gadget::getInstractionSet(ud_t* ud_obj) {
 }
 
 string Gadget::getAsmblyInstraction(ud_t* ud_obj) {
-  static const unsigned long long CLP = 0xaa401f0f;
-  static const unsigned long long JLP = 0xbb401f0f;
-  static const unsigned long long RLP = 0xcc401f0f;
-
   const uint8_t *instractionBuffer = ud_insn_ptr(ud_obj);
   int instraction = *(int*)instractionBuffer;
   switch(instraction) {
@@ -185,6 +197,12 @@ string Gadget::getAsmblyInstraction(ud_t* ud_obj) {
       return "JLP";
     case RLP:
       return "RLP";
+    case LP_NEW_A:
+      return "LP_NEW_A";
+    case LP_NEW_B:
+      return "LP_NEW_B";
+    case LP_NEW_C:
+      return "LP_NEW_C";
     default:
       return ud_insn_asm(ud_obj);
   }

@@ -15,7 +15,14 @@ int main(int argc, char* argv[]) {
 
   for(unsigned i=0;i<inputInfos.size();++i) {
 
-    vector<Gadget> gadgets = Gadget::ReadGadgetsFromBinary(inputInfos[i]);
+    vector<Gadget> gadgets = Gadget::FirstPassGadgetsRead(inputInfos[i]);
+    fprintf(outputInfo.file, "First Pass\n");
+    for(unsigned j=0;j<gadgets.size();++j) {
+      gadgets[j].PrintOnFile(&outputInfo);
+    }
+
+    gadgets = Gadget::SecondPassGadgetsRead(inputInfos[i]);
+    fprintf(outputInfo.file, "Second Pass\n");
     for(unsigned j=0;j<gadgets.size();++j) {
       gadgets[j].PrintOnFile(&outputInfo);
     }

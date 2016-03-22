@@ -85,3 +85,6 @@ FileInfo FileInfo::GetOutputFileFromArguments(int argc, char* argv[]) {
   return FileInfo(outputFile, "output.txt", 0);
 }
 
+void FileInfo::ResetFile() {
+  rewind(file);
+}

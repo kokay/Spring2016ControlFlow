@@ -56,20 +56,20 @@ vector<Gadget> Gadget::FirstPassGadgetsRead(FileInfo& input) {
     if(!isStartOfGadget(&ud_obj)) continue;
 
     Operation startOperation( getAddress(&ud_obj),
-      getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+      getOpcode(&ud_obj), getAsmblyCode(&ud_obj));
 
     vector<Operation> operations;
     while (ud_disassemble(&ud_obj)) {
       if(isEndOfGadget(&ud_obj)) {
         Operation endOperation(getAddress(&ud_obj),
-          getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+          getOpcode(&ud_obj), getAsmblyCode(&ud_obj));
 
         gadgets.push_back(Gadget(startOperation, endOperation, operations, input.fileName));
         break;
       }
 
       Operation operation( getAddress(&ud_obj),
-        getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+        getOpcode(&ud_obj), getAsmblyCode(&ud_obj));
 
       operations.push_back(operation);
 
@@ -96,13 +96,13 @@ vector<Gadget> Gadget::SecondPassGadgetsRead(FileInfo& input) {
     if(!isLP(&ud_obj)) continue;
 
     Operation startOperation( getAddress(&ud_obj),
-      getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+      getOpcode(&ud_obj), getAsmblyCode(&ud_obj));
 
     vector<Operation> operations;
     while (ud_disassemble(&ud_obj)) {
       if(isEndOfGadget(&ud_obj)) {
         Operation endOperation(getAddress(&ud_obj),
-          getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+          getOpcode(&ud_obj), getAsmblyCode(&ud_obj));
 
         Operation::RemoveDuplicate(startOperation, &operations);
         gadgets.push_back(Gadget(startOperation, endOperation, operations, input.fileName));
@@ -110,7 +110,7 @@ vector<Gadget> Gadget::SecondPassGadgetsRead(FileInfo& input) {
       }
 
       Operation operation( getAddress(&ud_obj),
-        getInstractionSet(&ud_obj), getAsmblyInstraction(&ud_obj));
+        getOpcode(&ud_obj), getAsmblyCode(&ud_obj));
 
       operations.push_back(operation);
 
@@ -123,6 +123,15 @@ vector<Gadget> Gadget::SecondPassGadgetsRead(FileInfo& input) {
 
   input.ResetFile();
   return gadgets;
+}
+
+vector<Gadget> Gadget::GetGadgetsEndWith(const string& checkType, const vector<Gadget>& gadgets) {
+  vector<Gadget> theGadgets;
+  for(auto& gadget : gadgets) {
+    if(gadget._endOperation.equals(checkType))
+      theGadgets.push_back(gadget);
+  }
+  return theGadgets;
 }
 
 ostream& operator<<(ostream& output, const Gadget& gadget) {
@@ -167,7 +176,7 @@ bool Gadget::isLP(ud_t* ud_obj) {
 bool Gadget::isEndOfGadget(ud_t* ud_obj) {
   static vector<string> retCallJmp{ "ret", "call", "jmp" };
 
-  string asmblyInstraction = getAsmblyInstraction(ud_obj);
+  string asmblyInstraction = getAsmblyCode(ud_obj);
   for (string& endType : retCallJmp) {
     if (asmblyInstraction.rfind(endType) != string::npos)
       return true;
@@ -179,7 +188,7 @@ uint64_t Gadget::getAddress(ud_t* ud_obj) {
   return ud_insn_off(ud_obj);
 }
 
-vector<uint8_t> Gadget::getInstractionSet(ud_t* ud_obj) {
+vector<uint8_t> Gadget::getOpcode(ud_t* ud_obj) {
   vector<uint8_t> instractionSet;
   for(unsigned i=0;i<ud_insn_len(ud_obj);++i){
     instractionSet.push_back(ud_insn_ptr(ud_obj)[i]);
@@ -187,7 +196,7 @@ vector<uint8_t> Gadget::getInstractionSet(ud_t* ud_obj) {
   return instractionSet;
 }
 
-string Gadget::getAsmblyInstraction(ud_t* ud_obj) {
+string Gadget::getAsmblyCode(ud_t* ud_obj) {
   const uint8_t *instractionBuffer = ud_insn_ptr(ud_obj);
   int instraction = *(int*)instractionBuffer;
   switch(instraction) {

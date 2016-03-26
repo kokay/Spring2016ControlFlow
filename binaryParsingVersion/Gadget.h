@@ -16,6 +16,7 @@ public:
   void PrintOnFile(FileInfo* input);
   static vector<Gadget> FirstPassGadgetsRead(FileInfo& input);
   static vector<Gadget> SecondPassGadgetsRead(FileInfo& input);
+  static vector<Gadget> GetGadgetsEndWith(const string& checkType, const vector<Gadget>& gadgets);
 
 private:
   friend ostream& operator<<(ostream& output, const Gadget& gadget);
@@ -23,8 +24,8 @@ private:
   static bool isLP(ud_t* id_obj);
   static bool isEndOfGadget(ud_t* id_obj);
   static uint64_t getAddress(ud_t* ud_obj);
-  static vector<uint8_t> getInstractionSet(ud_t* ud_obj);
-  static string getAsmblyInstraction(ud_t* ud_obj);
+  static vector<uint8_t> getOpcode(ud_t* ud_obj);
+  static string getAsmblyCode(ud_t* ud_obj);
 
   Operation _startOperation;
   Operation _endOperation;

@@ -158,6 +158,17 @@ bool Gadget::isStartOfGadget(ud_t* ud_obj) {
   }
 }
 
+vector<Gadget> Gadget::GetCallEndGadgetsWithSingleAddOrSub(const vector<Gadget>& gadgets, const int operationMaxLength) {
+  vector<Gadget> theGadgets;
+  for(const Gadget& gadget : gadgets){
+    if(gadget._operations.size() <= operationMaxLength &&
+       gadget._endOperation._operation == "call" && hasSingleAddOrSub(gadget))
+
+      theGadgets.push_back(gadget);
+  }
+  return theGadgets;
+}
+
 bool Gadget::isLP(ud_t* ud_obj) {
   const uint8_t *instractionBuffer = ud_insn_ptr(ud_obj);
   int instraction = *(int*)instractionBuffer;
@@ -194,6 +205,19 @@ vector<uint8_t> Gadget::getOpcode(ud_t* ud_obj) {
     instractionSet.push_back(ud_insn_ptr(ud_obj)[i]);
   }
   return instractionSet;
+}
+
+bool Gadget::hasSingleAddOrSub(const Gadget& gadget) {
+  int count = 0;
+  for(const Operation& operation:gadget._operations){
+    if(operation._operation == "add" || operation._operation == "sub")
+      ++count;
+
+    if(count >= 2)
+      return false;
+  }
+  if(count == 1) return true;
+  else		return false;
 }
 
 string Gadget::getAsmblyCode(ud_t* ud_obj) {

@@ -6,9 +6,8 @@
 #include "Gadget.h"
 #include "FileInputOutput.h"
 
-using namespace std;
-
 int main(int argc, char* argv[]) {
+  
   vector<FileInfo> inputInfos = FileInfo::GetInputFilesFromArguments(argc, argv);
   FileInfo outputInfo = FileInfo::GetOutputFileFromArguments(argc, argv);
 
@@ -29,8 +28,17 @@ int main(int argc, char* argv[]) {
 
     fclose(inputInfos[i].file);
   }
-  fclose(outputInfo.file);
 
+  //theGadgets has all gadgets that call a register that only do a single add or subtract on the register.
+  int operationsMaxLength = 5;
+  vector<Gadget> theGadgets = Gadget::GetCallEndGadgetsWithSingleAddOrSub(gadgets, operationsMaxLength);
+  fprintf(outputInfo.file, "Call end gadgets with single add or sub\n");
+  for(unsigned i=0;i<theGadgets.size();++i) {
+    theGadgets[i].PrintOnFile(&outputInfo);
+  }
+
+  fclose(outputInfo.file);
+ /*
   vector<Gadget> retGadgets = Gadget::GetGadgetsEndWith("ret", gadgets);
   while(true) {
     cout << "Which ROP turing complete case would you like to test for?" << endl;
@@ -82,4 +90,6 @@ int main(int argc, char* argv[]) {
       cout << "Incorrect input" << endl;
     }
   }
+
+*/
 }

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include "Operation.h"
+#include "operation.h"
 
 Operation::Operation(const int64_t& address, const vector<uint8_t>& opcode, const string& asmblyCode)
   : _address(address)

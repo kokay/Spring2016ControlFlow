@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 #include <udis86.h>
-#include "Operation.h"
-#include "FileInputOutput.h"
+#include "operation.h"
+#include "fileInputOutput.h"
 
 using namespace std;
 

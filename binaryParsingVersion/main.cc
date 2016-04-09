@@ -3,8 +3,8 @@
 #include <fstream>
 #include <string>
 #include <udis86.h>
-#include "Gadget.h"
-#include "FileInputOutput.h"
+#include "gadget.h"
+#include "fileInputOutput.h"
 
 int main(int argc, char* argv[]) {
   
@@ -16,12 +16,14 @@ int main(int argc, char* argv[]) {
 
     gadgets = Gadget::FirstPassGadgetsRead(inputInfos[i]);
     fprintf(outputInfo.file, "First Pass\n");
+    fprintf(outputInfo.file, "	  Number of the gadgets:%d\n",int(gadgets.size()));
     for(unsigned j=0;j<gadgets.size();++j) {
       gadgets[j].PrintOnFile(&outputInfo);
     }
 
     gadgets2 = Gadget::SecondPassGadgetsRead(inputInfos[i]);
     fprintf(outputInfo.file, "Second Pass\n");
+    fprintf(outputInfo.file, "	  Number of the gadgets:%d\n",int(gadgets2.size()));
     for(unsigned j=0;j<gadgets2.size();++j) {
       gadgets[j].PrintOnFile(&outputInfo);
     }
@@ -30,14 +32,18 @@ int main(int argc, char* argv[]) {
   }
 
   //theGadgets has all gadgets that call a register that only do a single add or subtract on the register.
-  int operationsMaxLength = 5;
+  int operationsMaxLength = 100;
   vector<Gadget> theGadgets = Gadget::GetCallEndGadgetsWithSingleAddOrSub(gadgets, operationsMaxLength);
   fprintf(outputInfo.file, "Call end gadgets with single add or sub\n");
+  fprintf(outputInfo.file, "   Number of the gadgets:%d\n",int(theGadgets.size()));
   for(unsigned i=0;i<theGadgets.size();++i) {
     theGadgets[i].PrintOnFile(&outputInfo);
   }
 
   fclose(outputInfo.file);
+
+
+
  /*
   vector<Gadget> retGadgets = Gadget::GetGadgetsEndWith("ret", gadgets);
   while(true) {

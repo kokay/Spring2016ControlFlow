@@ -2,7 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
-#include "Gadget.h"
+#include "gadget.h"
 
 #define CLP      0xaa401f0f
 #define JLP      0xbb401f0f
@@ -162,7 +162,8 @@ vector<Gadget> Gadget::GetCallEndGadgetsWithSingleAddOrSub(const vector<Gadget>&
   vector<Gadget> theGadgets;
   for(const Gadget& gadget : gadgets){
     if(gadget._operations.size() <= operationMaxLength &&
-       gadget._endOperation._operation == "call" && hasSingleAddOrSub(gadget))
+       gadget._endOperation._operation == "call" && gadget._endOperation._regster1[0] != '0' &&
+       gadget._endOperation._regster1[0] != 'x' && hasSingleAddOrSub(gadget))
 
       theGadgets.push_back(gadget);
   }
@@ -210,7 +211,8 @@ vector<uint8_t> Gadget::getOpcode(ud_t* ud_obj) {
 bool Gadget::hasSingleAddOrSub(const Gadget& gadget) {
   int count = 0;
   for(const Operation& operation:gadget._operations){
-    if(operation._operation == "add" || operation._operation == "sub")
+    if(operation._operation == "add" && gadget._endOperation._regster1 == operation._regster1 ||
+       operation._operation == "sub" && gadget._endOperation._regster1 == operation._regster1 )
       ++count;
 
     if(count >= 2)

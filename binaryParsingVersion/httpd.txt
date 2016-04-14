@@ -1,0 +1,49 @@
+./binaries/httpd/httpd:
+ Number of the jlpClpRlpGadgets:6532
+ Number of the abcdGadgets:399
+
+./binaries/httpd/libcrypt-2.20.so:
+ Number of the jlpClpRlpGadgets:274
+ Number of the abcdGadgets:14
+
+./binaries/httpd/libexpat.so.0.5.0:
+ Number of the jlpClpRlpGadgets:1494
+ Number of the abcdGadgets:167
+
+./binaries/httpd/libpthread-2.20.so:
+ Number of the jlpClpRlpGadgets:711
+ Number of the abcdGadgets:63
+
+./binaries/httpd/libaprutil-1.so.0.3.12:
+ Number of the jlpClpRlpGadgets:1624
+ Number of the abcdGadgets:105
+
+./binaries/httpd/libdl-2.20.so:
+ Number of the jlpClpRlpGadgets:117
+ Number of the abcdGadgets:9
+
+./binaries/httpd/libm-2.20.so:
+ Number of the jlpClpRlpGadgets:1384
+ Number of the abcdGadgets:296
+
+./binaries/httpd/librt-2.20.so:
+ Number of the jlpClpRlpGadgets:347
+ Number of the abcdGadgets:12
+
+ File(s):
+ ./binaries/httpd/httpd
+ ./binaries/httpd/libcrypt-2.20.so
+ ./binaries/httpd/libexpat.so.0.5.0
+ ./binaries/httpd/libpthread-2.20.so
+ ./binaries/httpd/libaprutil-1.so.0.3.12
+ ./binaries/httpd/libdl-2.20.so
+ ./binaries/httpd/libm-2.20.so
+ ./binaries/httpd/librt-2.20.so
+
+Counts:
+  JLP:    2364
+  CLP:    2414
+  RLP:    7705
+ gada:     371
+ gadb:       0
+ gadc:     694

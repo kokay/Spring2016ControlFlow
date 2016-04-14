@@ -1,0 +1,34 @@
+./binaries/as/as:
+ Number of the jlpClpRlpGadgets:4875
+ Number of the abcdGadgets:389
+
+./binaries/as/ld-2.20.so:
+ Number of the jlpClpRlpGadgets:761
+ Number of the abcdGadgets:67
+
+./binaries/as/libbfd-2.24.so:
+ Number of the jlpClpRlpGadgets:8655
+ Number of the abcdGadgets:703
+
+./binaries/as/libc-2.20.so:
+ Number of the jlpClpRlpGadgets:9124
+ Number of the abcdGadgets:1080
+
+./binaries/as/libopcodes-2.24.so:
+ Number of the jlpClpRlpGadgets:497
+ Number of the abcdGadgets:45
+
+ File(s):
+ ./binaries/as/as
+ ./binaries/as/ld-2.20.so
+ ./binaries/as/libbfd-2.24.so
+ ./binaries/as/libc-2.20.so
+ ./binaries/as/libopcodes-2.24.so
+
+Counts:
+  JLP:    2326
+  CLP:    3014
+  RLP:   18572
+ gada:     845
+ gadb:       0
+ gadc:    1439

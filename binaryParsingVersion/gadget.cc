@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <unordered_map>
 #include "gadget.h"
 
 #define CLP      0xaa401f0f
@@ -41,6 +42,25 @@ void Gadget::PrintOnFile(FileInfo* output) {
   }
   _endOperation.PrintOnFile(output->file);
   fprintf(output->file, "\n\n");
+}
+
+int Gadget::getType() {
+//  static const int jlp = 0, clp = 1, rlp = 2,
+//             gada = 3, gadb = 4, gadc = 5, gadd = 6;
+
+ // if(_startOperation._operation == "JLP") return jlp;
+ // if(_startOperation._operation == "CLP") return clp;
+ // if(_startOperation._operation == "RLP") return rlp;
+ // if(_startOperation._operation == "LP_NEW_A") return gada;
+ // if(_startOperation._operation == "LP_NEW_B") return gadb;
+ // if(_startOperation._operation == "LP_NEW_C") return gadc;
+ // return gadd;
+
+  static const unordered_map<string, int> correspondingTypes{
+     {"JLP", 0}, {"CLP", 1}, {"RLP", 2},
+     {"LP_NEW_A", 3}, {"LP_NEW_B", 4}, {"LP_NEW_C", 5}, {"LP_NEW_D", 6}
+  };
+  return correspondingTypes.at(_startOperation._operation);
 }
 
 vector<Gadget> Gadget::FirstPassGadgetsRead(FileInfo& input) {
@@ -132,6 +152,22 @@ vector<Gadget> Gadget::GetGadgetsEndWith(const string& checkType, const vector<G
       theGadgets.push_back(gadget);
   }
   return theGadgets;
+}
+
+void Gadget::PrintGadgetCountsOnFile(const vector<int>& gadgetCounts, const vector<FileInfo>& inputs, FileInfo* output) {
+  static const vector<string>
+      gadgetTypes{"JLP", "CLP", "RLP", "gada", "gadb", "gadc", "gadd"};
+
+  fprintf(output->file, " File(s):\n");
+  for(int i=0;i<inputs.size();++i){
+    fprintf(output->file, " %s\n", inputs[i].fileName.c_str());
+  }
+  fprintf(output->file, "\n");
+
+  fprintf(output->file, "Counts:\n");
+  for(int i=0;i<gadgetCounts.size();++i){
+    fprintf(output->file, " %4s: %7d\n", gadgetTypes[i].c_str(), gadgetCounts[i]);
+  }
 }
 
 ostream& operator<<(ostream& output, const Gadget& gadget) {

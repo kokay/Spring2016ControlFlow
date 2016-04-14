@@ -13,11 +13,13 @@ class Gadget {
 public:
   Gadget(const Operation& startOperation, const Operation& endOperation, const vector<Operation>& operations, const string& fileName);
   void Print();
-  void PrintOnFile(FileInfo* input);
+  void PrintOnFile(FileInfo* output);
+  int getType();
   static vector<Gadget> FirstPassGadgetsRead(FileInfo& input);
   static vector<Gadget> SecondPassGadgetsRead(FileInfo& input);
   static vector<Gadget> GetGadgetsEndWith(const string& checkType, const vector<Gadget>& gadgets);
   static vector<Gadget> GetCallEndGadgetsWithSingleAddOrSub(const vector<Gadget>& gadgets, const int operationMaxLength);
+  static void PrintGadgetCountsOnFile(const vector<int>& gadgetCounts, const vector<FileInfo>& inputs, FileInfo* output);
 
 
 private:

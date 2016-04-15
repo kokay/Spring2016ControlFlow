@@ -1,0 +1,15 @@
+libc.so.6:
+ Number of the jlpClpRlpGadgets:9117
+ Number of the abcdGadgets:2386
+
+ File(s):
+ libc.so.6
+
+Counts:
+  JLP:     522
+  CLP:    1300
+  RLP:    7295
+ gada:     383
+ gadb:     636
+ gadc:     691
+ gadd:     676

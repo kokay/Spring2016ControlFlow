@@ -1,0 +1,35 @@
+./binaries/bash/bash:
+ Number of the jlpClpRlpGadgets:11320
+ Number of the abcdGadgets:2110
+
+./binaries/bash/libdl-2.20.so:
+ Number of the jlpClpRlpGadgets:117
+ Number of the abcdGadgets:33
+
+./binaries/bash/libhistory.so.6.3:
+ Number of the jlpClpRlpGadgets:445
+ Number of the abcdGadgets:124
+
+./binaries/bash/libncursesw.so.6.0:
+ Number of the jlpClpRlpGadgets:3201
+ Number of the abcdGadgets:916
+
+./binaries/bash/libreadline.so.6.3:
+ Number of the jlpClpRlpGadgets:3437
+ Number of the abcdGadgets:934
+
+ File(s):
+ ./binaries/bash/bash
+ ./binaries/bash/libdl-2.20.so
+ ./binaries/bash/libhistory.so.6.3
+ ./binaries/bash/libncursesw.so.6.0
+ ./binaries/bash/libreadline.so.6.3
+
+Counts:
+  JLP:    1766
+  CLP:    2680
+  RLP:   14074
+ gada:     454
+ gadb:     854
+ gadc:     861
+ gadd:    1948

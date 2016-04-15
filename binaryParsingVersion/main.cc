@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
   vector<FileInfo> inputInfos = FileInfo::GetInputFilesFromArguments(argc, argv);
   FileInfo outputInfo = FileInfo::GetOutputFileFromArguments(argc, argv);
 
-  vector<int> gadgetCounts(6, 0);
+  vector<int> gadgetCounts(7, 0);
   vector<Gadget> jlpClpRlpGadgets, abcdGadgets;
   for(unsigned i=0;i<inputInfos.size();++i) {
 

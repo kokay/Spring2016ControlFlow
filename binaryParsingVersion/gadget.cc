@@ -9,8 +9,9 @@
 #define JLP      0xbb401f0f
 #define RLP      0xcc401f0f
 #define LP_NEW_A 0x00841f0f
-#define LP_NEW_B 0x00881f0f
+#define LP_NEW_B 0x00801f0f //#define LP_NEW_B 0x00881f0f
 #define LP_NEW_C 0x00441f0f
+#define LP_NEW_D 0x00401f0f
 
 using namespace std;
 
@@ -216,7 +217,9 @@ bool Gadget::isLP(ud_t* ud_obj) {
       return true;
     case LP_NEW_C:
       return true;
-    default:
+    case LP_NEW_D:
+      return true;
+     default:
       return false;
   }
 }
@@ -274,7 +277,9 @@ string Gadget::getAsmblyCode(ud_t* ud_obj) {
       return "LP_NEW_B";
     case LP_NEW_C:
       return "LP_NEW_C";
-    default:
+    case LP_NEW_D:
+      return "LP_NEW_D";
+     default:
       return ud_insn_asm(ud_obj);
   }
 }

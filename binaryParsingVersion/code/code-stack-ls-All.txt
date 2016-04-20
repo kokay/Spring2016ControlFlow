@@ -1,9 +1,0 @@
-./code/ls:
-Counts:
-  JLP:     267
-  CLP:     229
-  RLP:     888
- gada:      33
- gadb:      70
- gadc:      71
- gadd:     192

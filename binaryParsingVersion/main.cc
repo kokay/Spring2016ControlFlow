@@ -11,29 +11,32 @@ int main(int argc, char* argv[]) {
   vector<FileInfo> inputInfos = FileInfo::GetInputFilesFromArguments(argc, argv);
   FileInfo outputInfo = FileInfo::GetOutputFileFromArguments(argc, argv);
 
-  vector<int> gadgetCounts(7, 0);
+  vector<int> gadgetCounts(Gadget::NUMOFGADGETTYPES, 0);
   vector<Gadget> jlpClpRlpGadgets, abcdGadgets;
   for(unsigned i=0;i<inputInfos.size();++i) {
 
     fprintf(outputInfo.file, "%s:\n", inputInfos[i].fileName.c_str());
 
     jlpClpRlpGadgets = Gadget::FirstPassGadgetsRead(inputInfos[i]);
-    fprintf(outputInfo.file, " Number of the jlpClpRlpGadgets:%d\n",int(jlpClpRlpGadgets.size()));
-    for(auto& gadget:jlpClpRlpGadgets) {
-      ++gadgetCounts[gadget.getType()]; //getType() returns a number corresponding to type of Gadget. For example, JLP for 0.
-//      gadget.PrintOnFile(&outputInfo);
-    }
+    Gadget::CountJlpGadgetAndPrintOnFile(jlpClpRlpGadgets, &outputInfo);
 
-    abcdGadgets = Gadget::SecondPassGadgetsRead(inputInfos[i]);
-    fprintf(outputInfo.file, " Number of the abcdGadgets:%d\n",int(abcdGadgets.size()));
-    for(auto& gadget:abcdGadgets) {
-      ++gadgetCounts[gadget.getType()]; //getType() returns a number corresponding to type of Gadget. For example, JLP for 0.
+//    fprintf(outputInfo.file, " Number of the jlpClpRlpGadgets:%d\n",int(jlpClpRlpGadgets.size()));
+//    for(auto& gadget:jlpClpRlpGadgets) {
+//      ++gadgetCounts[gadget.getType()]; //getType() returns a number corresponding to type of Gadget. For example, JLP for 0.
+//      gadget.PrintOnFile(&outputInfo);
+//    }
+
+//    abcdGadgets = Gadget::SecondPassGadgetsRead(inputInfos[i]);
+//    fprintf(outputInfo.file, " Number of the abcdGadgets:%d\n",int(abcdGadgets.size()));
+//   for(auto& gadget:abcdGadgets) {
+//     ++gadgetCounts[gadget.getType()]; //getType() returns a number corresponding to type of Gadget. For example, JLP for 0.
 //     gadget.PrintOnFile(&outputInfo);
-    }
-    fprintf(outputInfo.file, "\n");
+//   }
+//    fprintf(outputInfo.file, "\n");
   }
 
-  Gadget::PrintGadgetCountsOnFile(gadgetCounts, inputInfos, &outputInfo);
+//  Gadget::PrintGadgetCountsOnFile(gadgetCounts, inputInfos, &outputInfo);
+
   fclose(outputInfo.file);
   for(int i=0;i<inputInfos.size();++i) fclose(inputInfos[i].file);
 

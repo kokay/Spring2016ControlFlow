@@ -1,0 +1,2 @@
+./code/libc.so.6:
+  JLP Counts: 522

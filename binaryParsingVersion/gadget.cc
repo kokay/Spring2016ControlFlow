@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <unordered_map>
+#include <algorithm>
 #include "gadget.h"
 
 #define CLP      0xaa401f0f
@@ -169,6 +170,15 @@ void Gadget::PrintGadgetCountsOnFile(const vector<int>& gadgetCounts, const vect
   for(int i=0;i<gadgetCounts.size();++i){
     fprintf(output->file, " %4s: %7d\n", gadgetTypes[i].c_str(), gadgetCounts[i]);
   }
+}
+
+void Gadget::CountJlpGadgetAndPrintOnFile(const vector<Gadget>& gadgets, FileInfo* output) {
+  int count = count_if(gadgets.begin(), gadgets.end(),
+       [](const Gadget& gadget) {
+         return gadget._startOperation._operation == "JLP";
+       });
+
+  fprintf(output->file, "  JLP Counts: %d\n",count);
 }
 
 ostream& operator<<(ostream& output, const Gadget& gadget) {

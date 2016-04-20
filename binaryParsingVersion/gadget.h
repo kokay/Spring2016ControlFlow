@@ -20,7 +20,8 @@ public:
   static vector<Gadget> GetGadgetsEndWith(const string& checkType, const vector<Gadget>& gadgets);
   static vector<Gadget> GetCallEndGadgetsWithSingleAddOrSub(const vector<Gadget>& gadgets, const int operationMaxLength);
   static void PrintGadgetCountsOnFile(const vector<int>& gadgetCounts, const vector<FileInfo>& inputs, FileInfo* output);
-
+  static void CountJlpGadgetAndPrintOnFile(const vector<Gadget>& gadgets, FileInfo* output);
+  static const int NUMOFGADGETTYPES = 7;
 
 private:
   friend ostream& operator<<(ostream& output, const Gadget& gadget);

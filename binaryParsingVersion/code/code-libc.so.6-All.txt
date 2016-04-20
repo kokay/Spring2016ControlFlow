@@ -1,0 +1,9 @@
+./libc.so.6:
+Counts:
+  JLP:     522
+  CLP:    1300
+  RLP:    7295
+ gada:     383
+ gadb:     636
+ gadc:     691
+ gadd:     676

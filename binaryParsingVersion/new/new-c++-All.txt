@@ -1,0 +1,9 @@
+./new/c++:
+Counts:
+  JLP:     731
+  CLP:     628
+  RLP:    4105
+ gada:     141
+ gadb:     237
+ gadc:     274
+ gadd:     415

@@ -1,0 +1,9 @@
+./code/stack-return:
+Counts:
+  JLP:       6
+  CLP:      10
+  RLP:      16
+ gada:       0
+ gadb:       1
+ gadc:       0
+ gadd:       7

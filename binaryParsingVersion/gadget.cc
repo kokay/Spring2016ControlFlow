@@ -160,11 +160,11 @@ void Gadget::PrintGadgetCountsOnFile(const vector<int>& gadgetCounts, const vect
   static const vector<string>
       gadgetTypes{"JLP", "CLP", "RLP", "gada", "gadb", "gadc", "gadd"};
 
-  fprintf(output->file, " File(s):\n");
-  for(int i=0;i<inputs.size();++i){
-    fprintf(output->file, " %s\n", inputs[i].fileName.c_str());
-  }
-  fprintf(output->file, "\n");
+//  fprintf(output->file, " File(s):\n");
+//  for(int i=0;i<inputs.size();++i){
+//    fprintf(output->file, " %s\n", inputs[i].fileName.c_str());
+//  }
+//  fprintf(output->file, "\n");
 
   fprintf(output->file, "Counts:\n");
   for(int i=0;i<gadgetCounts.size();++i){

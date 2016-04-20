@@ -1,0 +1,9 @@
+./code/stack-functionptr:
+Counts:
+  JLP:       7
+  CLP:      12
+  RLP:      18
+ gada:       0
+ gadb:       1
+ gadc:       0
+ gadd:       8

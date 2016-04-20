@@ -1,0 +1,9 @@
+./code/ld-linux-x86-64.so.2:
+Counts:
+  JLP:      71
+  CLP:      82
+  RLP:     608
+ gada:      23
+ gadb:      61
+ gadc:      44
+ gadd:      56
